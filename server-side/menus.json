@@ -1,5 +1,1 @@
-[{
-  "id": 0,
-  "name": "Menu 1",
-  "submenus": [1, 2]
-}]
+[{"id":0,"name":"Menu 1","submenus":[1,2,1693737436157]},{"id":1693737383489,"submenus":[]},{"id":1693737436157,"name":"Submenu 1","submenus":[]}]
