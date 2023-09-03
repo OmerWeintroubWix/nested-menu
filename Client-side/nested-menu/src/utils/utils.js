@@ -2,9 +2,9 @@ const getMenuItemById = (menuId, dataStracture) =>
   dataStracture.filter((currentMenuItem) => menuId === currentMenuItem.id)[0];
 
 const openChilds = (fatherMenuItemObject, dataStracture) => {
-  for (let i = 0; i < fatherMenuItemObject.subMenus.length; i++) {
+  for (let i = 0; i < fatherMenuItemObject.submenus.length; i++) {
     const currentItemToOpen = getMenuItemById(
-      fatherMenuItemObject.subMenus[i],
+      fatherMenuItemObject.submenus[i],
       dataStracture
     );
     currentItemToOpen.isOpen = true;
@@ -12,11 +12,11 @@ const openChilds = (fatherMenuItemObject, dataStracture) => {
 };
 
 const closeChilds = (fatherMenuItemObject, dataStracture) => {
-  if (fatherMenuItemObject.subMenus.length === 0) return;
+  if (fatherMenuItemObject.submenus.length === 0) return;
   else {
-    for (let i = 0; i < fatherMenuItemObject.subMenus.length; i++) {
+    for (let i = 0; i < fatherMenuItemObject.submenus.length; i++) {
       const currentItemToClose = getMenuItemById(
-        fatherMenuItemObject.subMenus[i],
+        fatherMenuItemObject.submenus[i],
         dataStracture
       );
       if (currentItemToClose.isOpen) {
@@ -29,9 +29,9 @@ const closeChilds = (fatherMenuItemObject, dataStracture) => {
 };
 
 const isLeftClickToOpen = (fatherMenuItemObject, dataStracture) => {
-  if (fatherMenuItemObject.subMenus.length !== 0) {
+  if (fatherMenuItemObject.submenus.length !== 0) {
     const childMenuItem = getMenuItemById(
-      fatherMenuItemObject.subMenus[0],
+      fatherMenuItemObject.submenus[0],
       dataStracture
     );
     return !childMenuItem.isOpen;
@@ -57,24 +57,7 @@ const handleRemoveItem = async (menuId) => {
   } catch {}
 };
 
-const BringAllMenus = async () => {
-  try {
-    const data = await fetch(
-      {
-        methood: `GET`,
-      },
-      `http://localhost:8080/api/menu/`
-    );
-    const parsedData = await data.json();
-    if (parsedData.ok) return parsedData;
-    else throw new Error(`Something went wrong`);
-  } catch {
-    throw new Error(`Something went wrong`);
-  }
-};
-
 export default {
   getMenuItemById: getMenuItemById,
   handleLeftClick: handleLeftClick,
-  BringAllMenus: BringAllMenus,
 };

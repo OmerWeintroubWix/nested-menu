@@ -35,12 +35,12 @@ export function Menu(props) {
         >
           <ul className="right-click-list">
             <li>Add Child</li>
-            <li onClick={handleRemove}>Remove</li>
+            <li onClick={deleteMenuItem}>Remove</li>
             <li>Rename</li>
           </ul>
         </div>
       </div>
-      {menuData.subMenus.map((currentChildId) => {
+      {menuData.submenus.map((currentChildId) => {
         const isOpenChild = utils.getMenuItemById(
           currentChildId,
           dataStructure
