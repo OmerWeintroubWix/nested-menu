@@ -4,16 +4,6 @@ import React, { useState, createContext, useEffect } from "react";
 import utils from "./utils/utils";
 export const Context = createContext();
 
-const helpData = [
-  { id: 0, name: "Menu", isOpen: true, subMenus: [1, 2] },
-  { id: 1, name: "Men", isOpen: false, subMenus: [3] },
-  { id: 2, name: "Women", isOpen: false, subMenus: [5, 6] },
-  { id: 3, name: "Omer", isOpen: false, subMenus: [4] },
-  { id: 4, name: "Weintroub", isOpen: false, subMenus: [] },
-  { id: 5, name: "Gali", isOpen: false, subMenus: [] },
-  { id: 6, name: "Tal", isOpen: false, subMenus: [] },
-];
-
 function App() {
   const [data, setData] = useState(null);
   useEffect(() => {
@@ -23,7 +13,9 @@ function App() {
           methood: `GET`,
         });
         const parsedData = await data1.json();
-        if (parsedData.ok) {
+        console.log(parsedData);
+        if (parsedData) {
+          console.log(parsedData);
           setData(parsedData);
         } else throw new Error(`Something went wrong`);
       } catch (err) {
@@ -47,7 +39,7 @@ function App() {
           deleteMenuItem: deleteMenuItem,
         }}
       >
-        {null && <Menu id={0} key={0}></Menu>}
+        {data && <Menu id={0} key={0}></Menu>}
       </Context.Provider>
     </>
   );

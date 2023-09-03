@@ -14,7 +14,7 @@ const openChilds = (fatherMenuItemObject, dataStracture) => {
 const closeChilds = (fatherMenuItemObject, dataStracture) => {
   if (fatherMenuItemObject.submenus.length === 0) return;
   else {
-    for (let i = 0; i < fatherMenuItemObject.subMenus.length; i++) {
+    for (let i = 0; i < fatherMenuItemObject.submenus.length; i++) {
       const currentItemToClose = getMenuItemById(
         fatherMenuItemObject.submenus[i],
         dataStracture
