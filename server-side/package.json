@@ -15,7 +15,8 @@
   "version": "1.0.0",
   "main": "server.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "tsc tsTest.ts && node tsTest.js"
   },
   "author": "",
   "license": "ISC",
