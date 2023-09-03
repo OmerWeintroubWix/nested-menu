@@ -1,10 +1,19 @@
 const getMenuItemById = (menuId, dataStracture) =>
   dataStracture.filter((currentMenuItem) => menuId === currentMenuItem.id)[0];
 
+const fixArrays = (prevData, newData) => {
+  return newData.map((currentItem) => {
+    const newData = { ...currentItem };
+    const prevData = getMenuItemById(newData.id);
+    newData.isOpen = prevData.isOpen;
+    return newData;
+  });
+};
+
 const openChilds = (fatherMenuItemObject, dataStracture) => {
-  for (let i = 0; i < fatherMenuItemObject.subMenus.length; i++) {
+  for (let i = 0; i < fatherMenuItemObject.submenus.length; i++) {
     const currentItemToOpen = getMenuItemById(
-      fatherMenuItemObject.subMenus[i],
+      fatherMenuItemObject.submenus[i],
       dataStracture
     );
     currentItemToOpen.isOpen = true;
@@ -12,11 +21,11 @@ const openChilds = (fatherMenuItemObject, dataStracture) => {
 };
 
 const closeChilds = (fatherMenuItemObject, dataStracture) => {
-  if (fatherMenuItemObject.subMenus.length === 0) return;
+  if (fatherMenuItemObject.submenus.length === 0) return;
   else {
-    for (let i = 0; i < fatherMenuItemObject.subMenus.length; i++) {
+    for (let i = 0; i < fatherMenuItemObject.submenus.length; i++) {
       const currentItemToClose = getMenuItemById(
-        fatherMenuItemObject.subMenus[i],
+        fatherMenuItemObject.submenus[i],
         dataStracture
       );
       if (currentItemToClose.isOpen) {
@@ -29,9 +38,9 @@ const closeChilds = (fatherMenuItemObject, dataStracture) => {
 };
 
 const isLeftClickToOpen = (fatherMenuItemObject, dataStracture) => {
-  if (fatherMenuItemObject.subMenus.length !== 0) {
+  if (fatherMenuItemObject.submenus.length !== 0) {
     const childMenuItem = getMenuItemById(
-      fatherMenuItemObject.subMenus[0],
+      fatherMenuItemObject.submenus[0],
       dataStracture
     );
     return !childMenuItem.isOpen;
@@ -49,32 +58,25 @@ const handleLeftClick = (clickedId, dataStracture) => {
   return [...dataStracture];
 };
 
-const handleRemoveItem = async (menuId) => {
+const handleRemoveItem = async (menuId, dataStracture) => {
   try {
     const dataFromServer = await fetch(
-      `http://localhost:8080/api/menu/${menuId}`
-    );
-  } catch {}
-};
-
-const BringAllMenus = async () => {
-  try {
-    const data = await fetch(
+      `http://localhost:8080/api/menu/${menuId}`,
       {
-        methood: `GET`,
-      },
-      `http://localhost:8080/api/menu/`
+        method: `DELETE`,
+      }
     );
-    const parsedData = await data.json();
-    if (parsedData.ok) return parsedData;
-    else throw new Error(`Something went wrong`);
-  } catch {
-    throw new Error(`Something went wrong`);
+    const parsedData = await dataFromServer.json();
+    if (parsedData) {
+      return fixArrays(dataStracture, parsedData);
+    } else return new Error(`Something went wrong`);
+  } catch (err) {
+    return new Error(`Something went wrong`);
   }
 };
 
 export default {
   getMenuItemById: getMenuItemById,
   handleLeftClick: handleLeftClick,
-  BringAllMenus: BringAllMenus,
+  handleRemoveItem: handleRemoveItem,
 };

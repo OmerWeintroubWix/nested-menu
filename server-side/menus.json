@@ -1,1 +1,4 @@
-[{"id":0,"name":"Menu","submenus":[1,2]},{"id":1,"name":"Men","submenus":[3]},{"id":3,"name":"Andrei","submenus":[4]},{"id":4,"name":"Weintroub","submenus":[]}]
+[
+  { "id": 0, "name": "Menu", "submenus": [1] },
+  { "id": 1, "name": "Men", "submenus": [] }
+]
