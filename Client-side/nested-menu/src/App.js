@@ -1,6 +1,7 @@
 import "./App.css";
 import { Menu } from "./Components/Menu";
 import React, { useState, createContext } from "react";
+import utils from "./utils/utils";
 export const Context = createContext();
 
 const helpData = [
@@ -14,13 +15,14 @@ const helpData = [
 ];
 
 function App() {
-  const leftClick = () => {};
+  const [data, setData] = useState(helpData);
+
+  const leftClick = (clickedId) =>
+    setData((prevData) => utils.handleLeftClick(clickedId, prevData));
 
   return (
     <>
-      <Context.Provider
-        value={{ dataStracture: helpData, leftClick: leftClick }}
-      >
+      <Context.Provider value={{ dataStracture: data, leftClick: leftClick }}>
         <Menu id={0} key={0}></Menu>
       </Context.Provider>
     </>
