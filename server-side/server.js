@@ -7,15 +7,15 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
     }
     return to.concat(ar || Array.prototype.slice.call(from));
 };
-var fs = require('fs');
-var express = require('express');
-var bodyParser = require('body-parser');
-var cors = require('cors');
+var fs = require("fs");
+var express = require("express");
+var bodyParser = require("body-parser");
+var cors = require("cors");
 var app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cors());
-var BASE_URL = '/api/menu/';
+var BASE_URL = "/api/menu/";
 app.get(BASE_URL, function (req, res) {
     fs.readFile('menus.json', 'utf8', function (err, data) {
         if (err) {
@@ -69,6 +69,7 @@ var deleteMenu = function (menusArr, menuId) {
             }
             arrCopy.splice(i, 1);
         }
+        arrCopy.splice(i, 1);
     }
     return arrCopy;
 };
@@ -119,5 +120,5 @@ app.put(BASE_URL + ':menuId', function (req, res) {
     });
 });
 app.listen(8080, function () {
-    console.log('Listening on port 8080');
+    console.log("Listening on port 8080");
 });

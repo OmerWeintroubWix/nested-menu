@@ -34,19 +34,19 @@ app.post(BASE_URL, (req, res) => {
         } else {
             const menus = JSON.parse(data);
 
-      const newId = Date.now();
+            const newId = Date.now();
 
-      for (let i = 0; i < menus.length; i++) {
-        if (menus[i].id == req.body.parentId) {
-          menus[i].submenus.push(newId);
-        }
-      }
+            for (let i = 0; i < menus.length; i++) {
+                if (menus[i].id == req.body.parentId) {
+                    menus[i].submenus.push(newId);
+                }
+            }
 
-      menus.push({
-        id: newId,
-        name: req.body.name,
-        submenus: [],
-      });
+            menus.push({
+                id: newId,
+                name: req.body.name,
+                submenus: [],
+            });
 
             fs.writeFile('menus.json', JSON.stringify(menus), 'utf8', (err) => {
                 if (err) {
@@ -56,10 +56,8 @@ app.post(BASE_URL, (req, res) => {
                 }
             });
         }
-      });
-    }
-  });
-});
+    });
+})
 
 const deleteMenu = (menusArr: Menu[], menuId: Id) => {
     let arrCopy = [...menusArr]
@@ -74,8 +72,7 @@ const deleteMenu = (menusArr: Menu[], menuId: Id) => {
             }
             arrCopy.splice(i, 1)
         }
-      }
-      arrCopy.splice(i, 1);
+        arrCopy.splice(i, 1);
     }
     return arrCopy
 }
@@ -85,7 +82,7 @@ app.delete(BASE_URL + ':menuId', (req, res) => {
     let newMenus: Menu[] = []
     fs.readFile('menus.json', 'utf8', (err, data) => {
         if (err) {
-           res.status(500).json({error: 'Error reading menus.json'});
+            res.status(500).json({error: 'Error reading menus.json'});
         } else {
             const menus = JSON.parse(data);
 
@@ -99,10 +96,8 @@ app.delete(BASE_URL + ':menuId', (req, res) => {
                 }
             });
         }
-      });
-    }
-  });
-});
+    });
+})
 
 app.put(BASE_URL + ':menuId', (req, res) => {
     const menuId = req.params.menuId;
@@ -131,5 +126,5 @@ app.put(BASE_URL + ':menuId', (req, res) => {
 });
 
 app.listen(8080, () => {
-  console.log("Listening on port 8080");
+    console.log("Listening on port 8080");
 });
