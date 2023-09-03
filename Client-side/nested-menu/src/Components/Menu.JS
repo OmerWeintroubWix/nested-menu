@@ -1,5 +1,5 @@
 import "./Menu.css";
 
-export function Menu() {
+export function Menu(props) {
   return <></>;
 }
