@@ -4,14 +4,20 @@ import { Context } from "../App";
 import utils from "../utils/utils";
 
 export function Menu(props) {
-  const data = useContext(Context);
-  const handleLeftClick = data.leftClick;
-  const handleRemove = data.deleteMenuItem;
-  const dataStructure = data.dataStracture;
-  const menuData = utils.getMenuItemById(props.id, dataStructure);
-  const handleLeftClickMenuItem = () => handleLeftClick(props.id);
-
   const [isRightClicked, setIsRightClicked] = useState(false);
+  const data = useContext(Context);
+  //From Context
+  //1.The data stracture
+  const dataStructure = data.dataStracture;
+  //2.handle left click
+  const handleLeftClick = data.leftClick;
+  //3.handle remove
+  const handleRemove = data.deleteMenuItem;
+
+  //Get the object that represent that menuItem
+  const menuData = utils.getMenuItemById(props.id, dataStructure);
+
+  const handleLeftClickMenuItem = () => handleLeftClick(props.id);
 
   const handleRightClickMenuItem = (e) => {
     e.preventDefault();

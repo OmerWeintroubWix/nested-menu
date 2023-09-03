@@ -1,6 +1,15 @@
 const getMenuItemById = (menuId, dataStracture) =>
   dataStracture.filter((currentMenuItem) => menuId === currentMenuItem.id)[0];
 
+const fixArrays = (prevData, newData) => {
+  return newData.map((currentItem) => {
+    const newData = { ...currentItem };
+    const prevData = getMenuItemById(newData.id);
+    newData.isOpen = prevData.isOpen;
+    return newData;
+  });
+};
+
 const openChilds = (fatherMenuItemObject, dataStracture) => {
   for (let i = 0; i < fatherMenuItemObject.submenus.length; i++) {
     const currentItemToOpen = getMenuItemById(
@@ -49,15 +58,25 @@ const handleLeftClick = (clickedId, dataStracture) => {
   return [...dataStracture];
 };
 
-const handleRemoveItem = async (menuId) => {
+const handleRemoveItem = async (menuId, dataStracture) => {
   try {
     const dataFromServer = await fetch(
-      `http://localhost:8080/api/menu/${menuId}`
+      `http://localhost:8080/api/menu/${menuId}`,
+      {
+        method: `DELETE`,
+      }
     );
-  } catch {}
+    const parsedData = await dataFromServer.json();
+    if (parsedData) {
+      return fixArrays(dataStracture, parsedData);
+    } else return new Error(`Something went wrong`);
+  } catch (err) {
+    return new Error(`Something went wrong`);
+  }
 };
 
 export default {
   getMenuItemById: getMenuItemById,
   handleLeftClick: handleLeftClick,
+  handleRemoveItem: handleRemoveItem,
 };

@@ -7,3 +7,6 @@
   { "id": 5, "name": "Gali", "submenus": [] },
   { "id": 6, "name": "Tal", "submenus": [] }
 ]
+  { "id": 0, "name": "Menu", "submenus": [1] },
+  { "id": 1, "name": "Men", "submenus": [] }
+]

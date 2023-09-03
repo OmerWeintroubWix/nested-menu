@@ -6,29 +6,41 @@ export const Context = createContext();
 
 function App() {
   const [data, setData] = useState(null);
+
   useEffect(() => {
     const BringAllMenus = async () => {
       try {
-        const data1 = await fetch(`http://localhost:8080/api/menu/`, {
+        const data = await fetch(`http://localhost:8080/api/menu/`, {
           methood: `GET`,
         });
-        const parsedData = await data1.json();
-        console.log(parsedData);
+        const parsedData = await data.json();
         if (parsedData) {
-          console.log(parsedData);
-          setData(parsedData);
+          const relevantData = parsedData.map((currentMenu, index) => {
+            const currentItem = { ...currentMenu };
+            if (index === 0) currentItem.isOpen = true;
+            else currentItem.isOpen = false;
+            console.log(currentItem);
+            return currentItem;
+          });
+          console.log(relevantData);
+          setData(relevantData);
         } else throw new Error(`Something went wrong`);
-      } catch (err) {
+      } catch {
         throw new Error(`Something went wrong`);
       }
     };
     BringAllMenus();
   }, []);
 
-  const leftClick = (clickedId) =>
-    setData((prevData) => utils.handleLeftClick(clickedId, prevData));
+  const leftClick = (clickedId) => {
+    setData((prevData) => {
+      return utils.handleLeftClick(clickedId, prevData);
+    });
+  };
 
-  const deleteMenuItem = (menuId) => {};
+  const deleteMenuItem = async (menuId) => {
+    console.log(menuId);
+  };
 
   return (
     <>
