@@ -6,33 +6,33 @@ const cors = require("cors");
 type Menu = {
     id: number | string,
     name: string,
-    submenus: Menu[],
+    submenus: number[],
 }
 type Id = number | string
 
 const app = express();
 
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 app.use(cors());
 
 const BASE_URL = "/api/menu/";
 app.get(BASE_URL, (req, res) => {
-  fs.readFile("menus.json", "utf8", (err, data) => {
-    if (err) {
-      res.status(500).json({ error: "Error reading menus.json" });
-    } else {
-      const json = JSON.parse(data);
-      res.json(json);
-    }
-  });
+    fs.readFile('menus.json', 'utf8', (err, data) => {
+        if (err) {
+            res.status(500).json({error: 'Error reading menus.json'});
+        } else {
+            const json = JSON.parse(data);
+            res.json(json);
+        }
+    });
 });
 app.post(BASE_URL, (req, res) => {
-  fs.readFile("menus.json", "utf8", (err, data) => {
-    if (err) {
-      res.status(500).json({ error: "Error reading menus.json" });
-    } else {
-      const menus = JSON.parse(data);
+    fs.readFile('menus.json', 'utf8', (err, data) => {
+        if (err) {
+            res.status(500).json({error: 'Error reading menus.json'});
+        } else {
+            const menus = JSON.parse(data);
 
       const newId = Date.now();
 
@@ -48,11 +48,13 @@ app.post(BASE_URL, (req, res) => {
         submenus: [],
       });
 
-      fs.writeFile("menus.json", JSON.stringify(menus), "utf8", (err) => {
-        if (err) {
-          res.status(500).json({ error: "Error writing menus.json" });
-        } else {
-          res.json(menus);
+            fs.writeFile('menus.json', JSON.stringify(menus), 'utf8', (err) => {
+                if (err) {
+                    res.status(500).json({error: 'Error writing menus.json'});
+                } else {
+                    res.json(menus);
+                }
+            });
         }
       });
     }
@@ -60,13 +62,14 @@ app.post(BASE_URL, (req, res) => {
 });
 
 const deleteMenu = (menusArr: Menu[], menuId: Id) => {
-    const arrCopy = [...menusArr]
+    let arrCopy = [...menusArr]
     for (let i = 0; i < arrCopy.length; i++) {
         if (arrCopy[i].id == menuId) {
             console.log(arrCopy[i].submenus)
             if (arrCopy[i].submenus.length > 0) {
                 for (let j = 0; j < arrCopy[i].submenus.length; j++) {
-                    deleteMenu(arrCopy[i].submenus, arrCopy[i].submenus[j].id)
+                    console.log(arrCopy[i].submenus[j])
+                    arrCopy = deleteMenu(arrCopy, arrCopy[i].submenus[j])
                 }
             }
             arrCopy.splice(i, 1)
@@ -82,7 +85,7 @@ app.delete(BASE_URL + ':menuId', (req, res) => {
     let newMenus: Menu[] = []
     fs.readFile('menus.json', 'utf8', (err, data) => {
         if (err) {
-          res.status(500).json({ error: "Error writing menus.json" });
+           res.status(500).json({error: 'Error reading menus.json'});
         } else {
             const menus = JSON.parse(data);
 
@@ -90,7 +93,7 @@ app.delete(BASE_URL + ':menuId', (req, res) => {
 
             fs.writeFile('menus.json', JSON.stringify(newMenus), 'utf8', (err) => {
                 if (err) {
-                    res.status(500).json({ error: 'Error writing menus.json' });
+                    res.status(500).json({error: 'Error writing menus.json'});
                 } else {
                     res.json(newMenus);
                 }
@@ -100,28 +103,32 @@ app.delete(BASE_URL + ':menuId', (req, res) => {
     }
   });
 });
-// app.update(BASE_URL + ':menuId', (req, res) => {
-//     const menuId = req.params.menuId;
-//     fs.readFile('menus.json', 'utf8', (err, data) => {
-//         if (err) {
-//             res.status(500).json({ error: 'Error reading menus.json' });
-//         } else {
-//             const menus = JSON.parse(data);
-//
-//             for (let i = 0; i < menus.length; i++) {
-//                 newMenus = deleteMenu(menus, menuId)
-//             }
-//
-//             fs.writeFile('menus.json', JSON.stringify(newMenus), 'utf8', (err) => {
-//                 if (err) {
-//                     res.status(500).json({ error: 'Error writing menus.json' });
-//                 } else {
-//                     res.json(newMenus);
-//                 }
-//             });
-//         }
-//     });
-// });
+
+app.put(BASE_URL + ':menuId', (req, res) => {
+    const menuId = req.params.menuId;
+    fs.readFile('menus.json', 'utf8', (err, data) => {
+        if (err) {
+            res.status(500).json({error: 'Error reading menus.json'});
+        } else {
+            const menus = JSON.parse(data);
+            const menusCopy = [...menus]
+
+            for (let i = 0; i < menus.length; i++) {
+                if (menus[i].id == menuId) {
+                    menusCopy[i].name = req.body.newName
+                }
+            }
+
+            fs.writeFile('menus.json', JSON.stringify(menusCopy), 'utf8', (err) => {
+                if (err) {
+                    res.status(500).json({error: 'Error writing menus.json'});
+                } else {
+                    res.json(menusCopy);
+                }
+            });
+        }
+    });
+});
 
 app.listen(8080, () => {
   console.log("Listening on port 8080");
