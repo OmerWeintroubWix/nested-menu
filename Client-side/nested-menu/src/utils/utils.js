@@ -49,7 +49,32 @@ const handleLeftClick = (clickedId, dataStracture) => {
   return [...dataStracture];
 };
 
+const handleRemoveItem = async (menuId) => {
+  try {
+    const dataFromServer = await fetch(
+      `http://localhost:8080/api/menu/${menuId}`
+    );
+  } catch {}
+};
+
+const BringAllMenus = async () => {
+  try {
+    const data = await fetch(
+      {
+        methood: `GET`,
+      },
+      `http://localhost:8080/api/menu/`
+    );
+    const parsedData = await data.json();
+    if (parsedData.ok) return parsedData;
+    else throw new Error(`Something went wrong`);
+  } catch {
+    throw new Error(`Something went wrong`);
+  }
+};
+
 export default {
   getMenuItemById: getMenuItemById,
   handleLeftClick: handleLeftClick,
+  BringAllMenus: BringAllMenus,
 };

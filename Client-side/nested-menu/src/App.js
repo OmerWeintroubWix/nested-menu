@@ -15,14 +15,22 @@ const helpData = [
 ];
 
 function App() {
-  const [data, setData] = useState(helpData);
+  const [data, setData] = useState(utils.BringAllMenus());
 
   const leftClick = (clickedId) =>
     setData((prevData) => utils.handleLeftClick(clickedId, prevData));
 
+  const deleteMenuItem = (menuId) => {};
+
   return (
     <>
-      <Context.Provider value={{ dataStracture: data, leftClick: leftClick }}>
+      <Context.Provider
+        value={{
+          dataStracture: data,
+          leftClick: leftClick,
+          deleteMenuItem: deleteMenuItem,
+        }}
+      >
         <Menu id={0} key={0}></Menu>
       </Context.Provider>
     </>
