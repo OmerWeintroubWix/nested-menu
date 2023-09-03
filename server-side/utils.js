@@ -23,7 +23,6 @@ var deleteElById = function (menusArr, menuId) {
             }
             arrCopy.splice(i, 1);
         }
-        arrCopy.splice(i, 1);
     }
     return arrCopy;
 };

@@ -10,9 +10,8 @@ export const deleteElById = (menusArr: Menu[], menuId: Id) => {
                     arrCopy = deleteElById(arrCopy, arrCopy[i].submenus[j])
                 }
             }
-            arrCopy.splice(i, 1)
+            arrCopy.splice(i, 1);
         }
-        arrCopy.splice(i, 1);
     }
     return arrCopy
 }
