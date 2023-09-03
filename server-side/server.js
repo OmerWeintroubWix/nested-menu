@@ -63,7 +63,8 @@ var deleteMenu = function (menusArr, menuId) {
             console.log(arrCopy[i].submenus);
             if (arrCopy[i].submenus.length > 0) {
                 for (var j = 0; j < arrCopy[i].submenus.length; j++) {
-                    deleteMenu(arrCopy[i].submenus, arrCopy[i].submenus[j].id);
+                    console.log(arrCopy[i].submenus[j]);
+                    arrCopy = deleteMenu(arrCopy, arrCopy[i].submenus[j]);
                 }
             }
             arrCopy.splice(i, 1);
@@ -92,28 +93,31 @@ app.delete(BASE_URL + ':menuId', function (req, res) {
         }
     });
 });
-// app.update(BASE_URL + ':menuId', (req, res) => {
-//     const menuId = req.params.menuId;
-//     fs.readFile('menus.json', 'utf8', (err, data) => {
-//         if (err) {
-//             res.status(500).json({ error: 'Error reading menus.json' });
-//         } else {
-//             const menus = JSON.parse(data);
-//
-//             for (let i = 0; i < menus.length; i++) {
-//                 newMenus = deleteMenu(menus, menuId)
-//             }
-//
-//             fs.writeFile('menus.json', JSON.stringify(newMenus), 'utf8', (err) => {
-//                 if (err) {
-//                     res.status(500).json({ error: 'Error writing menus.json' });
-//                 } else {
-//                     res.json(newMenus);
-//                 }
-//             });
-//         }
-//     });
-// });
+app.put(BASE_URL + ':menuId', function (req, res) {
+    var menuId = req.params.menuId;
+    fs.readFile('menus.json', 'utf8', function (err, data) {
+        if (err) {
+            res.status(500).json({ error: 'Error reading menus.json' });
+        }
+        else {
+            var menus = JSON.parse(data);
+            var menusCopy_1 = __spreadArray([], menus, true);
+            for (var i = 0; i < menus.length; i++) {
+                if (menus[i].id == menuId) {
+                    menusCopy_1[i].name = req.body.newName;
+                }
+            }
+            fs.writeFile('menus.json', JSON.stringify(menusCopy_1), 'utf8', function (err) {
+                if (err) {
+                    res.status(500).json({ error: 'Error writing menus.json' });
+                }
+                else {
+                    res.json(menusCopy_1);
+                }
+            });
+        }
+    });
+});
 app.listen(8080, function () {
     console.log('Listening on port 8080');
 });
