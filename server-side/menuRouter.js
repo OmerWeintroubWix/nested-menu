@@ -1,0 +1,11 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var express = require("express");
+var menuControllers_1 = require("./menuControllers");
+var router = express.Router();
+var BASE_URL = "/api/menu/";
+router.get(BASE_URL, menuControllers_1.getMenus);
+router.post(BASE_URL, menuControllers_1.createMenu);
+router.delete(BASE_URL + ':menuId', menuControllers_1.deleteMenu);
+router.put(BASE_URL + ':menuId', menuControllers_1.renameMenu);
+exports.default = router;
