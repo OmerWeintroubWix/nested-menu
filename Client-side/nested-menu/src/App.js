@@ -10,18 +10,19 @@ function App() {
     const BringAllMenus = async () => {
       try {
         const data1 = await fetch(`http://localhost:8080/api/menu/`, {
-          methood: `GET`,
+          methood: `GET`, //TODO: typo in the word method
         });
         const parsedData = await data1.json();
         console.log(parsedData);
         if (parsedData) {
           console.log(parsedData);
           setData(parsedData);
-        } else throw new Error(`Something went wrong`);
+        } else throw new Error(`Something went wrong`); //TODO: make errors different
       } catch (err) {
         throw new Error(`Something went wrong`);
       }
-    };
+    }; //TODO: bring the function out of the useEffect
+    //TODO: make it work only if the "data" is empty (=null)
     BringAllMenus();
   }, []);
 
