@@ -19,10 +19,8 @@ function App() {
             const currentItem = { ...currentMenu };
             if (index === 0) currentItem.isOpen = true;
             else currentItem.isOpen = false;
-            console.log(currentItem);
             return currentItem;
           });
-          console.log(relevantData);
           setData(relevantData);
         } else throw new Error(`Something went wrong`);
       } catch {
@@ -39,7 +37,9 @@ function App() {
   };
 
   const deleteMenuItem = async (menuId) => {
-    console.log(menuId);
+    const newArray = await utils.handleRemoveItem(menuId, data);
+    console.log(newArray);
+    setData(newArray);
   };
 
   return (
