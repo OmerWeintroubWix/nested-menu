@@ -1,7 +1,8 @@
-const getMenuItemById = (menuId, dataStracture) =>
+export const BASE_URL = 'http://localhost:8080/api/menu/'
+export const getMenuItemById = (menuId, dataStracture) =>
   dataStracture.filter((currentMenuItem) => menuId === currentMenuItem.id)[0];
 
-const openChilds = (fatherMenuItemObject, dataStracture) => {
+export const openChilds = (fatherMenuItemObject, dataStracture) => {
   for (let i = 0; i < fatherMenuItemObject.submenus.length; i++) {
     const currentItemToOpen = getMenuItemById(
       fatherMenuItemObject.submenus[i],
@@ -11,7 +12,7 @@ const openChilds = (fatherMenuItemObject, dataStracture) => {
   }
 };
 
-const closeChilds = (fatherMenuItemObject, dataStracture) => {
+export const closeChilds = (fatherMenuItemObject, dataStracture) => {
   if (fatherMenuItemObject.submenus.length === 0) return;
   else {
     for (let i = 0; i < fatherMenuItemObject.submenus.length; i++) {
@@ -28,7 +29,7 @@ const closeChilds = (fatherMenuItemObject, dataStracture) => {
   }
 };
 
-const isLeftClickToOpen = (fatherMenuItemObject, dataStracture) => {
+export const isLeftClickToOpen = (fatherMenuItemObject, dataStracture) => {
   if (fatherMenuItemObject.submenus.length !== 0) {
     const childMenuItem = getMenuItemById(
       fatherMenuItemObject.submenus[0],
@@ -39,7 +40,7 @@ const isLeftClickToOpen = (fatherMenuItemObject, dataStracture) => {
   return false;
 };
 
-const handleLeftClick = (clickedId, dataStracture) => {
+export const handleLeftClick = (clickedId, dataStracture) => {
   const clickedItem = getMenuItemById(clickedId, dataStracture);
   if (isLeftClickToOpen(clickedItem, dataStracture)) {
     openChilds(clickedItem, dataStracture);
@@ -66,7 +67,7 @@ const setIsOpenArrays = (prevArray, newArray) => {
   }
 };
 
-const handleRemoveItem = async (menuId, dataStracture) => {
+export const handleDeleteItem = async (menuId, dataStracture) => {
   try {
     const dataFromServer = await fetch(
       `http://localhost:8080/api/menu/${menuId}`,
@@ -84,7 +85,7 @@ const handleRemoveItem = async (menuId, dataStracture) => {
   }
 };
 
-const handleRenameItem = async (menuId, newName, dataStracture) => {
+export const handleRenameItem = async (menuId, newName, dataStracture) => {
   try {
     const dataFromServer = await fetch(
       `http://localhost:8080/api/menu/${menuId}`,
@@ -106,7 +107,7 @@ const handleRenameItem = async (menuId, newName, dataStracture) => {
   }
 };
 
-const handleAddItem = async (menuIdFather, newItemName, dataStracture) => {
+export const handleAddItem = async (menuIdFather, newItemName, dataStracture) => {
   try {
     const dataFromServer = await fetch(`http://localhost:8080/api/menu/`, {
       method: `POST`,
@@ -124,12 +125,4 @@ const handleAddItem = async (menuIdFather, newItemName, dataStracture) => {
   } catch (err) {
     return new Error(`Something went wrong`);
   }
-};
-
-export default {
-  getMenuItemById: getMenuItemById,
-  handleLeftClick: handleLeftClick,
-  handleRemoveItem: handleRemoveItem,
-  handleRenameItem: handleRenameItem,
-  handleAddItem: handleAddItem,
 };
