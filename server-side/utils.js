@@ -12,13 +12,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteElById = void 0;
 var deleteElById = function (menusArr, menuId) {
     var arrCopy = __spreadArray([], menusArr, true);
-    for (var i = 0; i < arrCopy.length; i++) {
+    for (var i = arrCopy.length - 1; i >= 0; i--) {
         if (arrCopy[i].submenus.includes(menuId)) {
             arrCopy[i].submenus = arrCopy[i].submenus.filter(function (item) { return item != menuId; });
         }
         if (arrCopy[i].id == menuId) {
             if (arrCopy[i].submenus.length > 0) {
-                for (var j = 0; j < arrCopy[i].submenus.length; j++) {
+                for (var j = arrCopy[i].submenus.length - 1; j >= 0; j--) {
                     arrCopy = (0, exports.deleteElById)(arrCopy, arrCopy[i].submenus[j]);
                 }
             }
