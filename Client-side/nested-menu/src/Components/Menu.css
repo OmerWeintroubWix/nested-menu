@@ -3,6 +3,36 @@
   margin-top: 5px;
 }
 
+.menu-item-container{
+  display: flex;
+}
+
+.menu-item {
+  /*max-width: 300px;*/
+  background-color: #0d1b5f;
+  border: black 1px solid;
+  border-radius: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  margin: 10px;
+  transition: 200ms;
+  cursor: pointer;
+}
+.menu-item:hover {
+  background-color: #132994;
+}
 .menu-item p {
-  margin-bottom: 2px;
+  margin: 10px;
+}
+.right-click-menu ul{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: start;
+  padding-left: 20px;
+}
+.right-click-menu li {
+  font-size: 24px;
 }

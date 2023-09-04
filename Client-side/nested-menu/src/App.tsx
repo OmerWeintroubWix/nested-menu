@@ -1,9 +1,9 @@
 import "./App.css";
-import {Menu} from "./Components/Menu";
+import Menu from "./Components/Menu";
 import React, {createContext} from "react";
 import useMenu from "./hooks/useMenu";
 
-export const Context = createContext({});
+export const Context = createContext<any>({});
 
 function App() {
     const {
@@ -25,7 +25,7 @@ function App() {
           addMenuItem,
         }}
       >
-        {data && <Menu id={0} key={0} margin={0} />}
+        {data && <Menu id={0} margin={0} />}
       </Context.Provider>
     </>
   );
