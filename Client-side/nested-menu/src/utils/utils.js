@@ -127,9 +127,9 @@ const handleAddItem = async (menuIdFather, newItemName, dataStracture) => {
 };
 
 export default {
-  getMenuItemById: getMenuItemById,
-  handleLeftClick: handleLeftClick,
-  handleRemoveItem: handleRemoveItem,
-  handleRenameItem: handleRenameItem,
-  handleAddItem: handleAddItem,
+  getMenuItemById,
+  handleLeftClick,
+  handleRemoveItem,
+  handleRenameItem,
+  handleAddItem,
 };

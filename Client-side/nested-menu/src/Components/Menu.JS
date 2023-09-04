@@ -6,40 +6,19 @@ import utils from "../utils/utils";
 export function Menu(props) {
   const [isRightClicked, setIsRightClicked] = useState(false);
   const data = useContext(Context);
-  //From Context
-  //1.The data stracture
-  const dataStructure = data.dataStracture;
-  //2.handle left click
-  const handleLeftClick = data.leftClick;
-  //3.handle remove
-  const handleRemove = data.deleteMenuItem;
-  //4.handle rename
-  const handleRename = data.renameMenuItem;
-  //5.handle add
-  const handleAdd = data.addMenuItem;
 
   //Get the object that represent that menuItem
-  const menuData = utils.getMenuItemById(props.id, dataStructure);
-
-  const handleLeftClickMenuItem = () => handleLeftClick(props.id);
-
-  const handleRightClickMenuItem = (e) => {
-    e.preventDefault();
-    setIsRightClicked((prevState) => !prevState);
-  };
-
-  const deleteMenuItem = () => handleRemove(props.id);
-
-  const renameMenuItem = () => handleRename(props.id);
-
-  const addMenuItem = () => handleAdd(props.id);
+  const menuData = utils.getMenuItemById(props.id, data.dataStracture);
 
   return (
     <>
       <div
         id={`menu-id-${props.id}`}
-        onClick={handleLeftClickMenuItem}
-        onContextMenu={handleRightClickMenuItem}
+        onClick={() => data.leftClick(props.id)}
+        onContextMenu={(e) => {
+          e.preventDefault();
+          setIsRightClicked((prevState) => !prevState);
+        }}
         className="menu-item"
         style={{ marginLeft: `${props.margin}px` }}
       >
@@ -49,23 +28,23 @@ export function Menu(props) {
           style={{ display: isRightClicked ? `block` : `none` }}
         >
           <ul className="right-click-list">
-            <li onClick={addMenuItem}>Add Child</li>
-            <li onClick={deleteMenuItem}>Delete</li>
-            <li onClick={renameMenuItem}>Rename</li>
+            <li onClick={() => data.addMenuItem(props.id)}>Add Child</li>
+            <li onClick={() => data.deleteMenuItem(props.id)}>Delete</li>
+            <li onClick={() => data.renameMenuItem(props.id)}>Rename</li>
           </ul>
         </div>
       </div>
       {menuData.submenus.map((currentChildId) => {
         const isOpenChild = utils.getMenuItemById(
           currentChildId,
-          dataStructure
+          data.dataStracture
         ).isOpen;
         if (isOpenChild)
           return (
             <Menu
               id={currentChildId}
               key={currentChildId}
-              margin={props.margin + 20}
+              margin={props.margin + 35}
             ></Menu>
           );
       })}

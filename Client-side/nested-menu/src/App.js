@@ -36,18 +36,15 @@ function App() {
       return utils.handleLeftClick(clickedId, prevData);
     });
   };
-
   const deleteMenuItem = async (menuId) => {
     const newArray = await utils.handleRemoveItem(menuId, data);
     setData(newArray);
   };
-
   const renameMenuItem = async (menuId) => {
     const newName = prompt("Please enter the new name");
     const newArray = await utils.handleRenameItem(menuId, newName, data);
     setData(newArray);
   };
-
   const addMenuItem = async (fatherId) => {
     const newName = prompt("Please enter the child name");
     const newArray = await utils.handleAddItem(fatherId, newName, data);
