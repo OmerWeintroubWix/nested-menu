@@ -55,7 +55,7 @@ var createMenu = function (req, res) {
 };
 exports.createMenu = createMenu;
 var deleteMenu = function (req, res) {
-    var menuId = req.params.menuId;
+    var menuId = Number(req.params.menuId);
     var newMenus = [];
     fs.readFile('menus.json', 'utf8', function (err, data) {
         if (err) {

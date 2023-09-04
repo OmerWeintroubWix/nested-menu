@@ -13,11 +13,12 @@ exports.deleteElById = void 0;
 var deleteElById = function (menusArr, menuId) {
     var arrCopy = __spreadArray([], menusArr, true);
     for (var i = 0; i < arrCopy.length; i++) {
+        if (arrCopy[i].submenus.includes(menuId)) {
+            arrCopy[i].submenus = arrCopy[i].submenus.filter(function (item) { return item != menuId; });
+        }
         if (arrCopy[i].id == menuId) {
-            console.log(arrCopy[i].submenus);
             if (arrCopy[i].submenus.length > 0) {
                 for (var j = 0; j < arrCopy[i].submenus.length; j++) {
-                    console.log(arrCopy[i].submenus[j]);
                     arrCopy = (0, exports.deleteElById)(arrCopy, arrCopy[i].submenus[j]);
                 }
             }

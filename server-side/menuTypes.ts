@@ -1,6 +1,7 @@
+export type Id = number
+
 export type Menu = {
-    id: number | string,
+    id: Id,
     name: string,
-    submenus: number[],
+    submenus: Id[],
 }
-export type Id = number | string

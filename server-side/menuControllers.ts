@@ -45,7 +45,7 @@ export const createMenu = (req: express.Request, res: express.Response) => {
     });
 }
 export const deleteMenu = (req: express.Request, res: express.Response) => {
-    const menuId = req.params.menuId;
+    const menuId = Number(req.params.menuId);
     let newMenus: Menu[] = []
     fs.readFile('menus.json', 'utf8', (err, data) => {
         if (err) {
