@@ -15,10 +15,15 @@ function App() {
         });
         const parsedData = await data.json();
         if (parsedData) {
-          console.log(parsedData);
-          setData(parsedData);
-        } else throw new Error(`Something went wrong`); //TODO: make errors different
-      } catch (err) {
+          const relevantData = parsedData.map((currentMenu, index) => {
+            const currentItem = { ...currentMenu };
+            if (index === 0) currentItem.isOpen = true;
+            else currentItem.isOpen = false;
+            return currentItem;
+          });
+          setData(relevantData);
+        } else throw new Error(`Something went wrong`);
+      } catch {
         throw new Error(`Something went wrong`);
       }
     }; //TODO: bring the function out of the useEffect
@@ -33,7 +38,9 @@ function App() {
   };
 
   const deleteMenuItem = async (menuId) => {
-    console.log(menuId);
+    const newArray = await utils.handleRemoveItem(menuId, data);
+    console.log(newArray);
+    setData(newArray);
   };
 
   return (
