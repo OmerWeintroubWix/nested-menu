@@ -15,6 +15,8 @@ export function Menu(props) {
   const handleRemove = data.deleteMenuItem;
   //4.handle rename
   const handleRename = data.renameMenuItem;
+  //5.handle add
+  const handleAdd = data.addMenuItem;
 
   //Get the object that represent that menuItem
   const menuData = utils.getMenuItemById(props.id, dataStructure);
@@ -30,6 +32,8 @@ export function Menu(props) {
 
   const renameMenuItem = () => handleRename(props.id);
 
+  const addMenuItem = () => handleAdd(props.id);
+
   return (
     <>
       <div
@@ -37,6 +41,7 @@ export function Menu(props) {
         onClick={handleLeftClickMenuItem}
         onContextMenu={handleRightClickMenuItem}
         className="menu-item"
+        style={{ marginLeft: `${props.margin}px` }}
       >
         <p>{menuData.name}</p>
         <div
@@ -44,8 +49,8 @@ export function Menu(props) {
           style={{ display: isRightClicked ? `block` : `none` }}
         >
           <ul className="right-click-list">
-            <li>Add Child</li>
-            <li onClick={deleteMenuItem}>Remove</li>
+            <li onClick={addMenuItem}>Add Child</li>
+            <li onClick={deleteMenuItem}>Delete</li>
             <li onClick={renameMenuItem}>Rename</li>
           </ul>
         </div>
@@ -56,7 +61,13 @@ export function Menu(props) {
           dataStructure
         ).isOpen;
         if (isOpenChild)
-          return <Menu id={currentChildId} key={currentChildId}></Menu>;
+          return (
+            <Menu
+              id={currentChildId}
+              key={currentChildId}
+              margin={props.margin + 20}
+            ></Menu>
+          );
       })}
     </>
   );

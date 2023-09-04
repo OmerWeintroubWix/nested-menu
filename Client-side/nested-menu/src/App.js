@@ -38,15 +38,20 @@ function App() {
   };
 
   const deleteMenuItem = async (menuId) => {
-    console.log(data);
     const newArray = await utils.handleRemoveItem(menuId, data);
-    console.log(newArray);
     setData(newArray);
   };
 
   const renameMenuItem = async (menuId) => {
     const newName = prompt("Please enter the new name");
     const newArray = await utils.handleRenameItem(menuId, newName, data);
+    setData(newArray);
+  };
+
+  const addMenuItem = async (fatherId) => {
+    const newName = prompt("Please enter the child name");
+    const newArray = await utils.handleAddItem(fatherId, newName, data);
+    setData(newArray);
   };
 
   return (
@@ -57,9 +62,10 @@ function App() {
           leftClick: leftClick,
           deleteMenuItem: deleteMenuItem,
           renameMenuItem: renameMenuItem,
+          addMenuItem: addMenuItem,
         }}
       >
-        {data && <Menu id={0} key={0}></Menu>}
+        {data && <Menu id={0} key={0} margin={0}></Menu>}
       </Context.Provider>
     </>
   );

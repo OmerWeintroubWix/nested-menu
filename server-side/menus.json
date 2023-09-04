@@ -1,9 +1,1 @@
-[
-  { "id": 0, "name": "Menu", "submenus": [1, 2] },
-  { "id": 1, "name": "Men", "submenus": [3] },
-  { "id": 2, "name": "Women", "submenus": [5, 6] },
-  { "id": 3, "name": "Omer", "submenus": [4] },
-  { "id": 4, "name": "Weintroub", "submenus": [] },
-  { "id": 5, "name": "Gali", "submenus": [] },
-  { "id": 6, "name": "Tal", "submenus": [] }
-]
+[{"id":0,"name":"Menu","submenus":[1,2]},{"id":1,"name":"Men","submenus":[3,1693823401272]},{"id":2,"name":"Women","submenus":[5,6]},{"id":3,"name":"Omer","submenus":[4]},{"id":4,"name":"Weintroub","submenus":[]},{"id":5,"name":"Gali","submenus":[]},{"id":6,"name":"Tal","submenus":[]},{"id":1693823401272,"name":"T1","submenus":[]}]
