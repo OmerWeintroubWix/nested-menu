@@ -11,9 +11,9 @@ function App() {
     const BringAllMenus = async () => {
       try {
         const data1 = await fetch(`http://localhost:8080/api/menu/`, {
-          methood: `GET`, //TODO: typo in the word method
+          method: `GET`, //TODO: typo in the word method
         });
-        const parsedData = await data.json();
+        const parsedData = await data1.json();
         if (parsedData) {
           const relevantData = parsedData.map((currentMenu, index) => {
             const currentItem = { ...currentMenu };
@@ -38,9 +38,15 @@ function App() {
   };
 
   const deleteMenuItem = async (menuId) => {
+    console.log(data);
     const newArray = await utils.handleRemoveItem(menuId, data);
     console.log(newArray);
     setData(newArray);
+  };
+
+  const renameMenuItem = async (menuId) => {
+    const newName = prompt("Please enter the new name");
+    const newArray = await utils.handleRenameItem(menuId, newName, data);
   };
 
   return (
@@ -50,6 +56,7 @@ function App() {
           dataStracture: data,
           leftClick: leftClick,
           deleteMenuItem: deleteMenuItem,
+          renameMenuItem: renameMenuItem,
         }}
       >
         {data && <Menu id={0} key={0}></Menu>}

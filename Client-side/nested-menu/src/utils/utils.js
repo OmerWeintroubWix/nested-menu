@@ -50,11 +50,8 @@ const handleLeftClick = (clickedId, dataStracture) => {
 };
 
 const setIsOpenArrays = (prevArray, newArray) => {
-  console.log(prevArray, 1);
-  console.log(newArray, 2);
   for (let i = 0; i < newArray.length; i++) {
     newArray[i].isOpen = getMenuItemById(newArray[i].id, prevArray).isOpen;
-    console.log(newArray[i]);
   }
 };
 
@@ -76,8 +73,27 @@ const handleRemoveItem = async (menuId, dataStracture) => {
   }
 };
 
+const handleRenameItem = async (menuId, newName, dataStracture) => {
+  try {
+    const dataFromServer = await fetch(
+      `http://localhost:8080/api/menu/${menuId},${newName}`,
+      {
+        method: `UPDATE`,
+      }
+    );
+    const parsedData = await dataFromServer.json();
+    if (parsedData) {
+      setIsOpenArrays(dataStracture, parsedData);
+      return parsedData;
+    } else return new Error(`Something went wrong`);
+  } catch (err) {
+    return new Error(`Something went wrong`);
+  }
+};
+
 export default {
   getMenuItemById: getMenuItemById,
   handleLeftClick: handleLeftClick,
   handleRemoveItem: handleRemoveItem,
+  handleRenameItem: handleRenameItem,
 };

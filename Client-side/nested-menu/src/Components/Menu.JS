@@ -13,6 +13,8 @@ export function Menu(props) {
   const handleLeftClick = data.leftClick;
   //3.handle remove
   const handleRemove = data.deleteMenuItem;
+  //4.handle rename
+  const handleRename = data.renameMenuItem;
 
   //Get the object that represent that menuItem
   const menuData = utils.getMenuItemById(props.id, dataStructure);
@@ -25,6 +27,8 @@ export function Menu(props) {
   };
 
   const deleteMenuItem = () => handleRemove(props.id);
+
+  const renameMenuItem = () => handleRename(props.id);
 
   return (
     <>
@@ -42,7 +46,7 @@ export function Menu(props) {
           <ul className="right-click-list">
             <li>Add Child</li>
             <li onClick={deleteMenuItem}>Remove</li>
-            <li>Rename</li>
+            <li onClick={renameMenuItem}>Rename</li>
           </ul>
         </div>
       </div>
