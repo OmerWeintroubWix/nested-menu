@@ -3,7 +3,7 @@ import {Menu} from "./Components/Menu";
 import React, {createContext} from "react";
 import useMenu from "./hooks/useMenu";
 
-export const Context = createContext();
+export const Context = createContext({});
 
 function App() {
     const {
