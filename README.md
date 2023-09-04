@@ -10,4 +10,4 @@ Adds a menu with the given name to the array, id is a `Date.new()`
 Deletes a menu by id
 
 ## UPDATE (a menu): http://localhost:8080/api/menu/:menuId, body: {newName: string}
-Renames a mtnu by id (newName param needed)
+Renames a menu by id (newName param needed)
