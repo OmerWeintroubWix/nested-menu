@@ -10,25 +10,19 @@ function App() {
   useEffect(() => {
     const BringAllMenus = async () => {
       try {
-        const data = await fetch(`http://localhost:8080/api/menu/`, {
-          methood: `GET`,
+        const data1 = await fetch(`http://localhost:8080/api/menu/`, {
+          methood: `GET`, //TODO: typo in the word method
         });
         const parsedData = await data.json();
         if (parsedData) {
-          const relevantData = parsedData.map((currentMenu, index) => {
-            const currentItem = { ...currentMenu };
-            if (index === 0) currentItem.isOpen = true;
-            else currentItem.isOpen = false;
-            console.log(currentItem);
-            return currentItem;
-          });
-          console.log(relevantData);
-          setData(relevantData);
-        } else throw new Error(`Something went wrong`);
-      } catch {
+          console.log(parsedData);
+          setData(parsedData);
+        } else throw new Error(`Something went wrong`); //TODO: make errors different
+      } catch (err) {
         throw new Error(`Something went wrong`);
       }
-    };
+    }; //TODO: bring the function out of the useEffect
+    //TODO: make it work only if the "data" is empty (=null)
     BringAllMenus();
   }, []);
 
