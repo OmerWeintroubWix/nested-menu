@@ -6,19 +6,24 @@ export const Context = createContext();
 
 function App() {
   const [data, setData] = useState(null);
+
   useEffect(() => {
     const BringAllMenus = async () => {
       try {
         const data1 = await fetch(`http://localhost:8080/api/menu/`, {
-          methood: `GET`, //TODO: typo in the word method
+          method: `GET`, //TODO: typo in the word method
         });
         const parsedData = await data1.json();
-        console.log(parsedData);
         if (parsedData) {
-          console.log(parsedData);
-          setData(parsedData);
-        } else throw new Error(`Something went wrong`); //TODO: make errors different
-      } catch (err) {
+          const relevantData = parsedData.map((currentMenu, index) => {
+            const currentItem = { ...currentMenu };
+            if (index === 0) currentItem.isOpen = true;
+            else currentItem.isOpen = false;
+            return currentItem;
+          });
+          setData(relevantData);
+        } else throw new Error(`Something went wrong`);
+      } catch {
         throw new Error(`Something went wrong`);
       }
     }; //TODO: bring the function out of the useEffect
@@ -26,10 +31,28 @@ function App() {
     BringAllMenus();
   }, []);
 
-  const leftClick = (clickedId) =>
-    setData((prevData) => utils.handleLeftClick(clickedId, prevData));
+  const leftClick = (clickedId) => {
+    setData((prevData) => {
+      return utils.handleLeftClick(clickedId, prevData);
+    });
+  };
 
-  const deleteMenuItem = (menuId) => {};
+  const deleteMenuItem = async (menuId) => {
+    const newArray = await utils.handleRemoveItem(menuId, data);
+    setData(newArray);
+  };
+
+  const renameMenuItem = async (menuId) => {
+    const newName = prompt("Please enter the new name");
+    const newArray = await utils.handleRenameItem(menuId, newName, data);
+    setData(newArray);
+  };
+
+  const addMenuItem = async (fatherId) => {
+    const newName = prompt("Please enter the child name");
+    const newArray = await utils.handleAddItem(fatherId, newName, data);
+    setData(newArray);
+  };
 
   return (
     <>
@@ -38,9 +61,11 @@ function App() {
           dataStracture: data,
           leftClick: leftClick,
           deleteMenuItem: deleteMenuItem,
+          renameMenuItem: renameMenuItem,
+          addMenuItem: addMenuItem,
         }}
       >
-        {data && <Menu id={0} key={0}></Menu>}
+        {data && <Menu id={0} key={0} margin={0}></Menu>}
       </Context.Provider>
     </>
   );

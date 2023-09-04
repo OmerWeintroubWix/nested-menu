@@ -4,14 +4,24 @@ import { Context } from "../App";
 import utils from "../utils/utils";
 
 export function Menu(props) {
-  const data = useContext(Context);
-  const handleLeftClick = data.leftClick;
-  const handleRemove = data.deleteMenuItem;
-  const dataStructure = data.dataStracture;
-  const menuData = utils.getMenuItemById(props.id, dataStructure);
-  const handleLeftClickMenuItem = () => handleLeftClick(props.id);
-
   const [isRightClicked, setIsRightClicked] = useState(false);
+  const data = useContext(Context);
+  //From Context
+  //1.The data stracture
+  const dataStructure = data.dataStracture;
+  //2.handle left click
+  const handleLeftClick = data.leftClick;
+  //3.handle remove
+  const handleRemove = data.deleteMenuItem;
+  //4.handle rename
+  const handleRename = data.renameMenuItem;
+  //5.handle add
+  const handleAdd = data.addMenuItem;
+
+  //Get the object that represent that menuItem
+  const menuData = utils.getMenuItemById(props.id, dataStructure);
+
+  const handleLeftClickMenuItem = () => handleLeftClick(props.id);
 
   const handleRightClickMenuItem = (e) => {
     e.preventDefault();
@@ -20,6 +30,10 @@ export function Menu(props) {
 
   const deleteMenuItem = () => handleRemove(props.id);
 
+  const renameMenuItem = () => handleRename(props.id);
+
+  const addMenuItem = () => handleAdd(props.id);
+
   return (
     <>
       <div
@@ -27,6 +41,7 @@ export function Menu(props) {
         onClick={handleLeftClickMenuItem}
         onContextMenu={handleRightClickMenuItem}
         className="menu-item"
+        style={{ marginLeft: `${props.margin}px` }}
       >
         <p>{menuData.name}</p>
         <div
@@ -34,9 +49,9 @@ export function Menu(props) {
           style={{ display: isRightClicked ? `block` : `none` }}
         >
           <ul className="right-click-list">
-            <li>Add Child</li>
-            <li onClick={deleteMenuItem}>Remove</li>
-            <li>Rename</li>
+            <li onClick={addMenuItem}>Add Child</li>
+            <li onClick={deleteMenuItem}>Delete</li>
+            <li onClick={renameMenuItem}>Rename</li>
           </ul>
         </div>
       </div>
@@ -46,7 +61,13 @@ export function Menu(props) {
           dataStructure
         ).isOpen;
         if (isOpenChild)
-          return <Menu id={currentChildId} key={currentChildId}></Menu>;
+          return (
+            <Menu
+              id={currentChildId}
+              key={currentChildId}
+              margin={props.margin + 20}
+            ></Menu>
+          );
       })}
     </>
   );
